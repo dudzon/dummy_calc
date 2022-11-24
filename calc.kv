@@ -22,7 +22,8 @@
         Button:
             size_hint:(.2,.2)
             font_size:dp(32)
-            text:"CE"
+            text:"<<"
+            on_press:root.remove_last_char()
         Button:
             id: clear
             size_hint:(.2,.2)
@@ -106,6 +107,7 @@
             size_hint:(.2,.2)
             font_size:dp(32)
             text:"+/-"
+            on_press:root.make_positive_or_negative()
         Button:
             size_hint:(.2,.2)
             font_size:dp(32)
