@@ -25,11 +25,17 @@ class MyLayout(Widget):
         self.ids.calc_input.text = self.calc_value
 
     def add_dot(self):
-        if "." in self.calc_value:
+        num_list = self.calc_value.split('+')
+
+        if "+" in self.calc_value and not '.' in num_list[-1]:
+             self.calc_value += '.'
+
+        elif "." in self.calc_value:
             pass
         else:
             self.calc_value += '.'
-            self.ids.calc_input.text = self.calc_value
+            
+        self.ids.calc_input.text = self.calc_value
 
     def remove_last_char(self):
         current_value_list = list(self.ids.calc_input.text)
@@ -47,17 +53,16 @@ class MyLayout(Widget):
         self.ids.calc_input.text = self.calc_value
 
     def equals(self):
-        addition_symbol = "+"
-
-        # 1. Addition
-        if addition_symbol in self.calc_value:
-            str_list = self.calc_value.split(addition_symbol)
-            num_list = list(map(float,str_list))
-            result = sum(num_list)
-            # check if result is float or int
+        # Check for Zero Division Error
+        try:
+            result = eval(self.calc_value)
             result = self.formatResult(result)
-
-            self.ids.calc_input.text = str(result)
+            self.calc_value = str(result)
+            self.ids.calc_input.text = self.calc_value
+        except:
+            self.calc_value ='0'
+            self.ids.calc_input.text = self.calc_value
+        
 
     def formatResult(self,number):
         if number % 1 == 0:
