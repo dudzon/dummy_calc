@@ -25,15 +25,25 @@ class MyLayout(Widget):
         self.ids.calc_input.text = self.calc_value
 
     def add_dot(self):
-        num_list = self.calc_value.split('+')
+        symbols = list(['+','-','/','*','**'])
 
-        if "+" in self.calc_value and not '.' in num_list[-1]:
-             self.calc_value += '.'
+        # Block the possibility to add second dot in fraction
+        # Test more to check if this logic really works.
 
-        elif "." in self.calc_value:
-            pass
-        else:
-            self.calc_value += '.'
+        for symbol in symbols:
+            # If symbol is used split the string by symbol
+
+            if symbol in self.calc_value:
+                current_values = self.calc_value.split(symbol)
+
+                # If fraction is used do not add second dot
+                if symbol in self.calc_value and not '.' in current_values[-1]:
+                    self.calc_value += '.'
+
+            elif "." in self.calc_value:
+                pass
+            else:
+                self.calc_value += '.'
             
         self.ids.calc_input.text = self.calc_value
 
@@ -50,7 +60,7 @@ class MyLayout(Widget):
             self.calc_value = self.calc_value[1:]
         else:
             self.calc_value = '-' + self.calc_value
-            
+
         self.ids.calc_input.text = self.calc_value
 
     def equals(self):
