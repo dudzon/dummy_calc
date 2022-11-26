@@ -50,18 +50,14 @@ class MyLayout(Widget):
             self.calc_value = self.calc_value[1:]
         else:
             self.calc_value = '-' + self.calc_value
+            
         self.ids.calc_input.text = self.calc_value
 
     def equals(self):
-        # Check for Zero Division Error
         try:
-            result = eval(self.calc_value)
-            result = self.formatResult(result)
-            self.calc_value = str(result)
-            self.ids.calc_input.text = self.calc_value
+            self.evaluate(False)
         except:
-            self.calc_value ='0'
-            self.ids.calc_input.text = self.calc_value
+            self.clear()
         
 
     def formatResult(self,number):
@@ -70,10 +66,26 @@ class MyLayout(Widget):
         else:
             return number 
 
+    def get_percentage(self):
+        if '*' in self.calc_value:
+            self.evaluate(True)
         
-        
+        else:
+            self.clear()
 
+    def evaluate(self,percentage):
+        current_value = ''
+        result = ''
 
+        if percentage:
+            current_value = eval(self.calc_value)
+            result = int(current_value)/100
+        else:
+            result = eval(self.calc_value)
+
+        result = self.formatResult(result)
+        self.calc_value = str(result)
+        self.ids.calc_input.text = self.calc_value
 
 class CalcApp(App):
     def build(self):
