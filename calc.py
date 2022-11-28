@@ -18,7 +18,9 @@ class MyLayout(Widget):
         if  self.calc_value == '0':
             self.calc_value = self.calc_value[1:]
         self.calc_value +=  str(button_value)
+       
         self.ids.calc_input.text = self.calc_value
+        # self.expand_input_field()
 
     def add_math_symbol(self,sign) :
         self.calc_value += sign 
@@ -28,16 +30,15 @@ class MyLayout(Widget):
         symbols = list(['+','-','/','*','**'])
 
         # Block the possibility to add second dot in fraction
-        # Test more to check if this logic really works.
 
         for symbol in symbols:
             # If symbol is used split the string by symbol
-
+            
             if symbol in self.calc_value:
                 current_values = self.calc_value.split(symbol)
 
                 # If fraction is used do not add second dot
-                if symbol in self.calc_value and not '.' in current_values[-1]:
+                if not '.' in current_values[-1]:
                     self.calc_value += '.'
 
             elif "." in self.calc_value:
